@@ -1,0 +1,83 @@
+
+
+<div style="height: 40px;"></div> 
+
+<div id="contact" class="container custom-spacing d-flex justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <h2 class="text-center mb-4">Contáctame</h2>
+        <form id="contact-form" action="/submit" method="POST">
+            <!-- Nombre -->
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
+            </div>
+
+            <!-- Correo Electrónico -->
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" id="correo" name="correo" placeholder="Ingresa tu correo electrónico" required>
+            </div>
+
+            <!-- Asunto -->
+            <div class="mb-3">
+                <label for="asunto" class="form-label">Asunto</label>
+                <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto del mensaje">
+            </div>
+
+            <!-- Mensaje -->
+            <div class="mb-3">
+                <label for="mensaje" class="form-label">Mensaje</label>
+                <textarea class="form-control" id="mensaje" name="mensaje" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
+            </div>
+
+            <!-- Botón Enviar -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-lg btn-primary px-5 py-2 rounded-pill shadow-sm">
+                    Enviar Mensaje
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Barrita de éxito -->
+<div id="success-bar" class="success-bar">
+    ¡Mensaje enviado correctamente!
+</div>
+
+<!-- Script JavaScript -->
+<script>
+document.getElementById("contact-form").addEventListener("submit", function(event) {
+    event.preventDefault(); // Evita la redirección por defecto
+
+    // Crear un objeto FormData con los datos del formulario
+    const formData = new FormData(this);
+
+    // Enviar los datos con fetch
+    fetch("/submit", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            // Mostrar la barrita de éxito
+            const successBar = document.getElementById("success-bar");
+            successBar.classList.add("show");
+            // Ocultar la barrita después de 3 segundos
+            setTimeout(() => successBar.classList.remove("show"), 3000);
+
+            // Limpiar el formulario
+            document.getElementById("contact-form").reset();
+        } else {
+            alert("Error al enviar el mensaje. Inténtalo de nuevo.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Hubo un problema al enviar el formulario.");
+    });
+});
+</script>
+
+
+<div style="height: 200px;"></div> 
